@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./routes/home";
+import Detail from "./routes/detail";
+import NewProduct from "./routes/new-product";
+import {store} from "./store/store";
+import {Provider} from "react-redux";
+import MainLayout from "./components/layout/MainLayout";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Provider store={store}>
+            <div className="App">
+                <BrowserRouter>
+                    <MainLayout>
+                        <Routes>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="detail/:productId" element={<Detail/>}/>
+                            <Route path="new-product" element={<NewProduct/>}/>
+
+                            <Route
+                                path="*"
+                                element={
+                                    <main style={{padding: "1rem"}}>
+                                        <p>There's nothing here!</p>
+                                    </main>
+                                }
+                            />
+                        </Routes>
+                    </MainLayout>
+                </BrowserRouter>
+            </div>
+        </Provider>
+    );
 }
 
 export default App;
